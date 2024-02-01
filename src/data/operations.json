@@ -1,0 +1,18 @@
+{
+  ".exit": {
+    "description": "Exit the program",
+    "category": "exit"
+  },
+  "up": {
+    "description": "go upper in directory",
+    "category": "nwd"
+  },
+  "ls": {
+    "description": "output files and folders in current directory",
+    "category": "nwd"
+  },
+  "cd": {
+    "description": "change directory",
+    "category": "nwd"
+  }
+}
