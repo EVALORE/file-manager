@@ -11,9 +11,10 @@ const env = require('./data/environment.json');
 function createWorker(command, args) {
   const types = {
     nwd: resolve(env.currentDir, 'navigation.js'),
+    fs: resolve(env.currentDir, 'fsOperations.js'),
   };
 
-  const worker = new Worker(types[operations[command].category], {
+  const worker = new Worker(types[operations[command]], {
     workerData: { input: command, arguments: args },
   });
 
@@ -35,6 +36,7 @@ function main() {
   process.stdout.write('> ');
 
   process.stdin.on('data', (data) => {
+    //! change substring to filter
     const input = data
       .toString('utf-8')
       .trim()
@@ -43,7 +45,7 @@ function main() {
     const [command, ...args] = input.split(' ');
 
     if (operations[command]) {
-      operations[command].category === 'exit'
+      operations[command] === 'exit'
         ? process.exit()
         : createWorker(command, args);
     }
