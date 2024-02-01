@@ -13,6 +13,7 @@ function createWorker(command, args) {
     nwd: resolve(env.currentDir, 'navigation.js'),
     fs: resolve(env.currentDir, 'fsOperations.js'),
     os: resolve(env.currentDir, 'osOperations.js'),
+    hash: resolve(env.currentDir, 'hashCalculation.js'),
   };
 
   const worker = new Worker(types[operations[command]], {

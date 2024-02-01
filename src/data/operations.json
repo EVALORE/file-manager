@@ -1,5 +1,6 @@
 {
   ".exit": "exit",
+  "hash": "hash",
   "os": "os",
   "up": "nwd",
   "ls": "nwd",
