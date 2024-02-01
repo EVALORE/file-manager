@@ -1,5 +1,6 @@
 {
   ".exit": "exit",
+  "os": "os",
   "up": "nwd",
   "ls": "nwd",
   "cd": "nwd",

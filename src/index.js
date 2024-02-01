@@ -12,6 +12,7 @@ function createWorker(command, args) {
   const types = {
     nwd: resolve(env.currentDir, 'navigation.js'),
     fs: resolve(env.currentDir, 'fsOperations.js'),
+    os: resolve(env.currentDir, 'osOperations.js'),
   };
 
   const worker = new Worker(types[operations[command]], {
