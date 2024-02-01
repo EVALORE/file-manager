@@ -10,5 +10,7 @@
   "rn": "fs",
   "cp": "fs",
   "mv": "fs",
-  "rm": "fs"
+  "rm": "fs",
+  "compress": "zlib",
+  "decompress": "zlib"
 }

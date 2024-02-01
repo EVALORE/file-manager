@@ -14,6 +14,7 @@ function createWorker(command, args) {
     fs: resolve(env.currentDir, 'fsOperations.js'),
     os: resolve(env.currentDir, 'osOperations.js'),
     hash: resolve(env.currentDir, 'hashCalculation.js'),
+    zlib: resolve(env.currentDir, 'zlibOperations.js'),
   };
 
   const worker = new Worker(types[operations[command]], {
