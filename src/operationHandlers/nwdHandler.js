@@ -1,20 +1,33 @@
 import { workerData, isMainThread, parentPort } from 'worker_threads';
-import { resolve, dirname, sep } from 'path';
+import { resolve, sep } from 'path';
 import { readdir } from 'fs/promises';
-import { fileURLToPath } from 'url';
 
 function goUpper() {
+  if (process.cwd().split(sep).length === 2) {
+    parentPort.postMessage({
+      message: 'topLevelDirectory',
+    });
+    return;
+  }
   parentPort.postMessage({
-    // cwd: process.cwd().split(sep).slice(0, -1).join(sep),
     cwd: resolve(process.cwd(), '../'),
   });
 }
 
 function changeDirectory() {
-  workerData.arguments[0] &&
-    parentPort.postMessage({
-      cwd: resolve(process.cwd(), workerData.arguments[0]),
+  const { values } = workerData;
+  if (!(values || values[0]))
+    return parentPort.postMessage({
+      message: 'destinationPathIsMissing',
     });
+  if (values.length > 1)
+    return parentPort.postMessage({
+      message: 'tooManyArguments',
+    });
+
+  parentPort.postMessage({
+    cwd: resolve(process.cwd(), values[0]),
+  });
 }
 
 async function showFiles() {
@@ -35,17 +48,14 @@ async function showFiles() {
   console.table([...folders, ...files]);
 }
 
-function navigationHandler() {
-  console.log(workerData.input);
-  if (workerData.input === 'up') {
-    goUpper();
-  }
-  if (workerData.input === 'ls') {
-    showFiles();
-  }
-  if (workerData.input === 'cd') {
-    changeDirectory();
-  }
-}
+const operations = {
+  up: goUpper,
+  ls: showFiles,
+  cd: changeDirectory,
+};
 
-navigationHandler();
+(() => {
+  if (isMainThread) return console.log('please run index.js file');
+  const operation = operations[workerData.command];
+  operation && operation();
+})();
